@@ -30,7 +30,7 @@ https://github.com/limboemu/limbo
 4. Setup Environment
 
     a. Update variables for paths to NDK directories for your Build Environment
-     in ./limbo-android-lib/src/main/jni/android-limbo-config.mak
+     in ./limbo-android-lib/src/main/jni/android-config/android-limbo-config.mak
      
     b. Configure your PATH variable add the NDK Directory so makefile can find ndk-build
     Examples:
@@ -45,28 +45,23 @@ https://github.com/limboemu/limbo
     #Note: if some of these file links don't download with wget use your browser to download them
 
     ##### Get QEMU (modify the path to .../qemu-4.0.0.tar.xz if you compile with QEMU 4.0.0 instead)
-    wget http://download.qemu-project.org/qemu-2.9.1.tar.xz -P /tmp/
-    tar -xJf /tmp/qemu-2.9.1.tar.xz
+    wget http://download.qemu-project.org/qemu-2.9.1.tar.xz -O - | tar -xJf -
     mv qemu-2.9.1 qemu
 
     ##### GET glib
-    wget https://ftp.gnome.org/pub/GNOME/sources/glib/2.56/glib-2.56.1.tar.xz -P /tmp/
-    tar -xJf /tmp/glib-2.56.1.tar.xz
+    wget https://ftp.gnome.org/pub/GNOME/sources/glib/2.56/glib-2.56.1.tar.xz -O - | tar -xJf -
     mv glib-2.56.1 glib
 
     ##### GET libffi
-    wget https://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz -P /tmp/
-    tar -xzf /tmp/libffi-3.2.1.tar.gz
+    wget https://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz -O - | tar -xzf -
     mv libffi-3.2.1 libffi
 
     ##### GET pixman
-    wget https://www.cairographics.org/releases/pixman-0.34.0.tar.gz -P /tmp/
-    tar -xzf /tmp/pixman-0.34.0.tar.gz
+    wget https://www.cairographics.org/releases/pixman-0.34.0.tar.gz -O - | tar -xzf -
     mv pixman-0.34.0 pixman
 
     ##### GET SDL2
-    wget https://www.libsdl.org/release/SDL2-2.0.8.tar.gz -P /tmp/
-    tar -xzf /tmp/SDL2-2.0.8.tar.gz
+    wget https://www.libsdl.org/release/SDL2-2.0.8.tar.gz -O - | tar -xzf -
     mv SDL2-2.0.8 SDL2
 
     Now you should have this directory structure:
@@ -92,11 +87,11 @@ https://github.com/limboemu/limbo
     For QEMU 4.0.0 you also need to modify file android-config/android-qemu-config.mak:
         set to false: USE_QEMUSTAB ?= false
         set to true: USE_SLIRP_LIB ?= true
-        comment line: #PIXMAN = --with-system-pixman
-        #MISC += --disable-capstone
-        #MISC += --disable-malloc-trim
         set to false: USE_SDL_ABI ?= false
-     Also if you want to enable to explicitly enable MTTCG modify Config.java:
+        comment line: #PIXMAN = --with-system-pixman
+        uncomment line: MISC += --disable-capstone
+        uncomment line: MISC += --disable-malloc-trim
+     Also if you want to enable to explicitly enable MTTCG modify ./limbo-android-lib/src/main/java/com/max2idea/android/limbo/main/Config.java:
         set to true: public static boolean enableMTTCG = true;
 
     ### Apply glib patch for Limbo:
